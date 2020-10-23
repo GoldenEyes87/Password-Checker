@@ -1,6 +1,7 @@
+
 import requests
 import hashlib
-import sys
+import getpass
 
 
 def request_pwned_data(query):
@@ -19,7 +20,7 @@ def pwned_api_check(password_to_check):
     head, tail = sha1pass[:5], sha1pass[5:]
     response = request_pwned_data(head)
     return no_of_breaches(response.text, tail)
-    
+
 
 def no_of_breaches(response_in_str, tail):
     # creating a generator object
@@ -29,15 +30,16 @@ def no_of_breaches(response_in_str, tail):
             return no
     return 0
 
-        
-def main(args):
-    for i in range(1 , len(sys.argv)):
-        count = pwned_api_check(sys.argv[i])
+
+def main():
+    while True:
+        prompt=getpass.getpass("Password: ")
+        count = pwned_api_check(prompt)
         if count:
-            print(f"Your password \"{sys.argv[i]}\" has been found in {count} data breaches.You should change your password")
+            print(f"Your password has been found in {count} data breaches.You should change your password")
         else:
-            print(f'Your password \"{sys.argv[i]}\" NOT found!!')
+            print(f'Your password NOT found!!')
 
 
 if __name__=="__main__":
-    main(sys.argv)
+    main()
