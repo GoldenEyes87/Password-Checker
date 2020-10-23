@@ -1,4 +1,3 @@
-
 import requests
 import hashlib
 import getpass
@@ -33,12 +32,16 @@ def no_of_breaches(response_in_str, tail):
 
 def main():
     while True:
-        prompt=getpass.getpass("Password: ")
-        count = pwned_api_check(prompt)
-        if count:
-            print(f"Your password has been found in {count} data breaches.You should change your password")
-        else:
-            print(f'Your password NOT found!!')
+        try:
+            prompt=getpass.getpass("Password: ")
+            count = pwned_api_check(prompt)
+            if count:
+                print(f"Your password has been found in {count} data breaches.You should change your password")
+            else:
+                print(f'Your password NOT found!!')
+        except KeyboardInterrupt:
+            break
+
 
 
 if __name__=="__main__":
